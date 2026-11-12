@@ -493,8 +493,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Google Maps Embed Frame */}
-            <div className="rounded-3xl overflow-hidden border-2 border-[#C9A45C]/60 shadow-2xl h-[360px] bg-[#22040C]">
+            {/* Google Maps Interactive Frame */}
+            <div className="relative group rounded-3xl overflow-hidden border-2 border-[#C9A45C]/60 shadow-2xl h-[360px] bg-[#22040C]">
               <iframe
                 title="Swagat Marriage Garden Sironj Map"
                 src={WEDDING_DATA.venue.googleMapsEmbedUrl}
@@ -505,6 +505,15 @@ export default function Home() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
+              <a
+                href={WEDDING_DATA.venue.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-3 right-3 px-3.5 py-1.5 rounded-full bg-[#3B0917]/90 hover:bg-[#5B1020] border border-[#C9A45C] text-[#E8D5A3] hover:text-[#FFF8E9] text-xs font-cinzel flex items-center gap-1.5 shadow-lg backdrop-blur-sm transition-all"
+              >
+                <span>{lang === "hi" ? "मैप्स में खोलें" : "Open in Maps"}</span>
+                <Navigation className="w-3.5 h-3.5 text-[#C9A45C]" />
+              </a>
             </div>
           </div>
         </div>
