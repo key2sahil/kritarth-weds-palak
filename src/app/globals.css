@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --maroon-deep: #5B1020;
+    --burgundy-dark: #2B0510;
+    --burgundy-card: #3A0916;
+    --gold-primary: #C9A45C;
+    --gold-light: #E8D5A3;
+    --gold-shimmer: #F5E5BE;
+    --ivory-cream: #FFF8E9;
+    --emerald-regal: #164B38;
+  }
+}
+
+/* Custom Typography helpers */
+.font-cinzel {
+  font-family: var(--font-cinzel), serif;
+}
+.font-cormorant {
+  font-family: var(--font-cormorant), serif;
+}
+.font-rozha {
+  font-family: var(--font-rozha), serif;
+}
+.font-tiro {
+  font-family: var(--font-tiro), serif;
+}
+.font-poppins {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+/* Royal Gold Gradient Text */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #FFF8E9 0%, #E8D5A3 25%, #C9A45C 50%, #F5E5BE 75%, #C9A45C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.gold-gradient-border {
+  border-image: linear-gradient(to right, #C9A45C, #FFF8E9, #C9A45C) 1;
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(201,164,92,0.1) 0%, rgba(232,213,163,0.4) 50%, rgba(201,164,92,0.1) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 4s infinite linear;
+}
+
+/* Subtle Royal Pattern Background */
+.royal-mandala-bg {
+  background-color: #2B0510;
+  background-image: radial-gradient(rgba(201, 164, 92, 0.15) 1px, transparent 1px), radial-gradient(rgba(201, 164, 92, 0.08) 1px, #2B0510 1px);
+  background-size: 40px 40px;
+  background-position: 0 0, 20px 20px;
+}
+
+.royal-parchment-bg {
+  background-color: #FFF8E9;
+  background-image: radial-gradient(#E8D5A3 0.75px, transparent 0.75px);
+  background-size: 24px 24px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #2B0510;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A45C;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #E8D5A3;
+}
