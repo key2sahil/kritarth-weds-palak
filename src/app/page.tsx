@@ -688,6 +688,20 @@ export default function Home() {
           <p className="text-[11px] text-[#E8D5A3]/40 font-poppins mt-2">
             {lang === "hi" ? "सोनी परिवार का स्नेहित आमंत्रण" : "Cordially invited by Soni Family"}
           </p>
+
+          {/* Developer Attribution & Contact */}
+          <div className="mt-8 pt-6 border-t border-[#C9A45C]/15 flex items-center justify-center">
+            <a
+              href="https://github.com/key2sahil"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2B0510]/60 hover:bg-[#3B0917] border border-[#C9A45C]/20 hover:border-[#C9A45C]/50 text-[11px] font-poppins text-[#E8D5A3]/60 hover:text-[#FFF8E9] transition-all"
+            >
+              <span>{lang === "hi" ? "वेबसाइट निर्माण: साहिल सोनी" : "Crafted by: Sahil Soni"}</span>
+              <span className="text-[#C9A45C]">✦</span>
+              <span className="text-[10px] text-[#C9A45C]/80">{lang === "hi" ? "संपर्क करें" : "Contact for Development"}</span>
+            </a>
+          </div>
         </div>
       </footer>
     </main>
