@@ -35,8 +35,8 @@ export default function Home() {
         <PalaceGateModal onOpen={() => setInvitationOpened(true)} />
       )}
 
-      {/* FLOATING MUSIC CONTROLLER */}
-      <MusicPlayer autoPlayTrigger={invitationOpened} />
+      {/* FLOATING MUSIC CONTROLLER (PLAY/PAUSE / MUTE/UNMUTE) */}
+      <MusicPlayer autoPlayTrigger={invitationOpened} language={lang} />
 
       {/* BACKGROUND ROYAL AMBIENCE */}
       <div className="fixed inset-0 royal-mandala-bg opacity-30 pointer-events-none -z-10" />
