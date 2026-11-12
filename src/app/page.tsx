@@ -689,17 +689,19 @@ export default function Home() {
             {lang === "hi" ? "सोनी परिवार का स्नेहित आमंत्रण" : "Cordially invited by Soni Family"}
           </p>
 
-          {/* Developer Attribution & Contact */}
+          {/* Developer Attribution & WhatsApp Contact */}
           <div className="mt-8 pt-6 border-t border-[#C9A45C]/15 flex items-center justify-center">
             <a
-              href="https://github.com/key2sahil"
+              href="https://api.whatsapp.com/send?phone=919015441453&text=Hello%20Sahil%2C%20I%20saw%20the%20wedding%20invitation%20website%20and%20would%20like%20to%20connect%20for%20website%20development."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#2B0510]/60 hover:bg-[#3B0917] border border-[#C9A45C]/20 hover:border-[#C9A45C]/50 text-[11px] font-poppins text-[#E8D5A3]/60 hover:text-[#FFF8E9] transition-all"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2B0510]/70 hover:bg-[#3B0917] border border-[#C9A45C]/30 hover:border-[#25D366] text-[11px] font-poppins text-[#E8D5A3]/80 hover:text-[#FFF8E9] transition-all shadow-sm group"
             >
               <span>{lang === "hi" ? "वेबसाइट निर्माण: साहिल सोनी" : "Crafted by: Sahil Soni"}</span>
               <span className="text-[#C9A45C]">✦</span>
-              <span className="text-[10px] text-[#C9A45C]/80">{lang === "hi" ? "संपर्क करें" : "Contact for Development"}</span>
+              <span className="text-[10px] text-[#25D366] group-hover:underline flex items-center gap-1 font-medium">
+                <span>WhatsApp: +91 9015441453</span>
+              </span>
             </a>
           </div>
         </div>
