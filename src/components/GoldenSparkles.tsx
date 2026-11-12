@@ -17,20 +17,20 @@ export function GoldenSparkles() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // 1. Ambient Background Gold Floating Sparkles
-    const colors = ["#FFF8E9", "#F5E5BE", "#E8D5A3", "#C9A45C", "#FFD700"];
-    const items: SparkleItem[] = Array.from({ length: 36 }, (_, i) => ({
+    // 1. Gentle Ambient Background Particles (Kept at only 16 soft, tiny, quiet specks)
+    const colors = ["#E8D5A3", "#C9A45C", "#F5E5BE"];
+    const items: SparkleItem[] = Array.from({ length: 16 }, (_, i) => ({
       id: i,
-      top: (i * 11.3) % 100,
-      left: (i * 17.9) % 100,
-      size: i % 4 === 0 ? 5 : i % 2 === 0 ? 3.5 : 2.5,
-      duration: 3 + (i % 4) * 1.5,
-      delay: (i % 7) * 0.7,
+      top: (i * 17.3) % 100,
+      left: (i * 23.9) % 100,
+      size: i % 2 === 0 ? 2 : 1.5,
+      duration: 6 + (i % 3) * 2,
+      delay: (i % 5) * 1.5,
       color: colors[i % colors.length],
     }));
     setSparkles(items);
 
-    // 2. Interactive Golden Ray & Stardust Trail (Mouse Move & Mobile Scroll / Touch)
+    // 2. Subtle Interactive Stardust (Strictly throttled, tiny, quick fade, never covering text)
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -55,67 +55,62 @@ export function GoldenSparkles() {
       color: string;
       alpha: number;
       decay: number;
-      length: number;
     }
 
     const particles: Particle[] = [];
-    const goldPalette = ["#FFF8E9", "#F5E5BE", "#E8D5A3", "#C9A45C", "#FFD700", "#FFAA00"];
+    const subtleGold = ["#E8D5A3", "#C9A45C", "#F5E5BE"];
 
-    const addSparks = (x: number, y: number, count = 3, isScroll = false) => {
+    const addSparks = (x: number, y: number, count = 1) => {
+      // Limit total particles in memory so it never explodes into patakhas
+      if (particles.length > 25) return;
+
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = isScroll ? Math.random() * 3 + 1 : Math.random() * 2.2 + 0.5;
+        const speed = Math.random() * 0.9 + 0.3; // Very gentle drift
         particles.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed + (isScroll ? (Math.random() - 0.5) * 4 : -0.6),
-          size: Math.random() * 3.5 + 1.5,
-          color: goldPalette[Math.floor(Math.random() * goldPalette.length)],
-          alpha: 1,
-          decay: Math.random() * 0.025 + 0.015,
-          length: Math.random() * 8 + 4,
+          vy: Math.sin(angle) * speed - 0.4,
+          size: Math.random() * 1.8 + 1, // Tiny delicate specs (1px - 2.8px)
+          color: subtleGold[Math.floor(Math.random() * subtleGold.length)],
+          alpha: 0.65, // Lower opacity
+          decay: Math.random() * 0.04 + 0.03, // Fades away very fast (under 0.8s)
         });
       }
     };
 
-    // Desktop Mouse Move Trigger
+    // Desktop Mouse Move Trigger: only fires every 35px of movement, 1 tiny particle
     let lastMouseX = 0;
     let lastMouseY = 0;
     const onMouseMove = (e: MouseEvent) => {
       const dist = Math.hypot(e.clientX - lastMouseX, e.clientY - lastMouseY);
-      if (dist > 8) {
-        addSparks(e.clientX, e.clientY, 3);
+      if (dist > 35) {
+        addSparks(e.clientX, e.clientY, 1);
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
       }
     };
 
-    // Mobile Touch Move Trigger
+    // Mobile Touch Move Trigger: gentle single particle trail
+    let lastTouchX = 0;
+    let lastTouchY = 0;
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
-        addSparks(touch.clientX, touch.clientY, 4);
+        const dist = Math.hypot(touch.clientX - lastTouchX, touch.clientY - lastTouchY);
+        if (dist > 40) {
+          addSparks(touch.clientX, touch.clientY, 1);
+          lastTouchX = touch.clientX;
+          lastTouchY = touch.clientY;
+        }
       }
     };
 
-    // Mobile / Desktop Scroll Trigger (Golden rays sprinkle from screen center/sides as you scroll)
-    let lastScrollY = window.scrollY;
-    const onScroll = () => {
-      const currentScrollY = window.scrollY;
-      const delta = Math.abs(currentScrollY - lastScrollY);
-      if (delta > 10) {
-        // Sprinkle golden particles across random spots near finger/scroll position
-        const randX = Math.random() * width;
-        const randY = Math.random() * (height * 0.8) + height * 0.1;
-        addSparks(randX, randY, 4, true);
-        lastScrollY = currentScrollY;
-      }
-    };
+    // Scroll: removed burst entirely so scrolling through invitation cards is 100% clean and readable!
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
 
     let animationId: number;
     const render = () => {
@@ -134,21 +129,11 @@ export function GoldenSparkles() {
 
         ctx.save();
         ctx.globalAlpha = p.alpha;
-        ctx.strokeStyle = p.color;
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = p.color;
 
-        // Draw glittering ray line
+        // Subtle soft dot (no harsh long ray lines or firecracker blasts)
         ctx.beginPath();
-        ctx.lineWidth = p.size * 0.8;
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(p.x - p.vx * p.length, p.y - p.vy * p.length);
-        ctx.stroke();
-
-        // Draw star spark head
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 0.7, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.restore();
@@ -164,37 +149,34 @@ export function GoldenSparkles() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
   return (
     <>
-      {/* Interactive Golden Ray Canvas Trail */}
+      {/* Subtle Soft Stardust Trail (Low opacity, behind dialogs) */}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-40 w-full h-full"
+        className="fixed inset-0 pointer-events-none z-10 w-full h-full opacity-60"
       />
 
-      {/* Radiant Floating Stardust */}
+      {/* Gentle Floating Background Dust (Underneath content layers) */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-30 overflow-hidden"
+        className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30"
       >
         {sparkles.map((s) => (
           <span
             key={s.id}
-            className="absolute rounded-full pointer-events-none animate-gold-glitter"
+            className="absolute rounded-full pointer-events-none"
             style={{
               top: `${s.top}%`,
               left: `${s.left}%`,
               width: `${s.size}px`,
               height: `${s.size}px`,
               backgroundColor: s.color,
-              boxShadow: `0 0 ${s.size * 3}px ${s.color}, 0 0 ${s.size * 6}px rgba(232, 213, 163, 0.9)`,
-              animationDuration: `${s.duration}s`,
-              animationDelay: `${s.delay}s`,
+              opacity: 0.4,
             }}
           />
         ))}
@@ -203,12 +185,12 @@ export function GoldenSparkles() {
   );
 }
 
-export function TwinkleSparkle({ className = "w-5 h-5 text-[#E8D5A3]" }: { className?: string }) {
+export function TwinkleSparkle({ className = "w-4 h-4 text-[#E8D5A3]" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={`${className} animate-twinkle pointer-events-none filter drop-shadow-[0_0_8px_#E8D5A3]`}
+      className={`${className} pointer-events-none opacity-40`}
     >
       <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
     </svg>
