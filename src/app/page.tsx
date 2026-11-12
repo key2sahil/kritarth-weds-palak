@@ -9,6 +9,7 @@ import { CeremonyTimeline } from "@/components/CeremonyTimeline";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
 import { GaneshaIcon, KalashIcon, DiyaIcon, RoyalMandalaDivider } from "@/components/RoyalIcons";
 import { GoldenSparkles, TwinkleSparkle } from "@/components/GoldenSparkles";
+import { GroomRoyalMotif, BrideRoyalMotif } from "@/components/CoupleIcons";
 import {
   Calendar,
   MapPin,
@@ -330,8 +331,8 @@ export default function Home() {
             {/* GROOM CARD */}
             <div className="relative rounded-3xl p-8 sm:p-10 bg-gradient-to-b from-[#3E0A18] to-[#26040E] border-2 border-[#C9A45C]/60 shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="w-16 h-16 mx-auto rounded-full bg-[#5B1020] border-2 border-[#C9A45C] flex items-center justify-center text-xl font-bold font-cormorant gold-gradient-text shadow-md mb-4">
-                  K
+                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-b from-[#4A0A1C] to-[#24030B] border-2 border-[#C9A45C] flex items-center justify-center shadow-[0_0_20px_rgba(201,164,92,0.4)] mb-6 p-2">
+                  <GroomRoyalMotif className="w-full h-full" />
                 </div>
 
                 <div className="text-center">
@@ -366,8 +367,8 @@ export default function Home() {
             {/* BRIDE CARD */}
             <div className="relative rounded-3xl p-8 sm:p-10 bg-gradient-to-b from-[#3E0A18] to-[#26040E] border-2 border-[#C9A45C]/60 shadow-2xl flex flex-col justify-between">
               <div>
-                <div className="w-16 h-16 mx-auto rounded-full bg-[#5B1020] border-2 border-[#C9A45C] flex items-center justify-center text-xl font-bold font-cormorant gold-gradient-text shadow-md mb-4">
-                  P
+                <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-b from-[#4A0A1C] to-[#24030B] border-2 border-[#C9A45C] flex items-center justify-center shadow-[0_0_20px_rgba(201,164,92,0.4)] mb-6 p-2">
+                  <BrideRoyalMotif className="w-full h-full" />
                 </div>
 
                 <div className="text-center">
