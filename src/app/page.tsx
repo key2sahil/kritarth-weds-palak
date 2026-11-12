@@ -19,6 +19,7 @@ import {
   Store,
   ChevronDown,
   Building,
+  ArrowUp,
 } from "lucide-react";
 
 export default function Home() {
@@ -45,24 +46,33 @@ export default function Home() {
       {/* GOLDEN GLITTER & STARDUST PARTICLES LAYER */}
       <GoldenSparkles />
 
-      {/* TOP FLOATING NAV / BAR WITH GIGW COMPLIANT LANGUAGE SWITCHER */}
-      <header className="sticky top-0 z-40 bg-[#25030C]/95 backdrop-blur-md border-b border-[#C9A45C]/30 px-4 py-2.5">
+      {/* FIXED TOP NAVIGATION BAR WITH GIGW COMPLIANT LANGUAGE SWITCHER & SCROLL-TO-TOP */}
+      <header className="fixed top-0 inset-x-0 z-50 bg-[#25030C]/95 backdrop-blur-md border-b border-[#C9A45C]/40 px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
-          {/* Invocation / Title */}
-          <div className="flex items-center gap-2">
-            <span className="font-tiro text-xs sm:text-sm text-[#E8D5A3] font-semibold">
-              {lang === "hi" ? "॥ श्री गणेशाय नमः ॥" : "|| Shree Ganeshay Namah ||"}
+          {/* Invocation / Title with 1-Click Back to Top */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-2 group text-left cursor-pointer"
+            title={lang === "hi" ? "शीर्ष पर जाएं (Back to Top)" : "Scroll to Top"}
+          >
+            <span className="font-tiro text-xs sm:text-sm text-[#E8D5A3] group-hover:text-[#FFF8E9] font-semibold transition-colors flex items-center gap-1.5">
+              <span>{lang === "hi" ? "॥ श्री गणेशाय नमः ॥" : "|| Shree Ganeshay Namah ||"}</span>
+              <ArrowUp className="w-3.5 h-3.5 text-[#C9A45C] group-hover:-translate-y-0.5 transition-transform" />
             </span>
-          </div>
+          </button>
 
-          {/* Center Title (desktop) */}
-          <div className="text-center hidden md:block">
-            <span className="font-cinzel text-xs tracking-widest text-[#C9A45C] uppercase">
+          {/* Center Title (desktop - click to scroll top) */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="text-center hidden md:block group cursor-pointer"
+            title={lang === "hi" ? "शीर्ष पर जाएं (Back to Top)" : "Scroll to Top"}
+          >
+            <span className="font-cinzel text-xs tracking-widest text-[#C9A45C] group-hover:text-[#FFF8E9] uppercase transition-colors">
               Kritarth & Palak Wedding
             </span>
-          </div>
+          </button>
 
-          {/* Right Navigation & Bilingual Language Toggle (GIGW / Accessibility) */}
+          {/* Right Navigation & Bilingual Language Toggle */}
           <div className="flex items-center gap-3">
             <nav className="hidden sm:flex items-center gap-3 text-xs font-medium text-[#E8D5A3]">
               <a href="#events" className="hover:text-[#FFF8E9] transition-colors">
@@ -76,6 +86,17 @@ export default function Home() {
               </a>
             </nav>
 
+            {/* Back to Top button icon (visible across all mobile and desktop viewports) */}
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              type="button"
+              title={lang === "hi" ? "ऊपर जाएं" : "Top"}
+              aria-label="Back to Top"
+              className="p-1.5 rounded-full bg-[#3B0917] hover:bg-[#5B1020] border border-[#C9A45C]/50 text-[#E8D5A3] hover:text-[#FFF8E9] text-xs flex items-center justify-center transition-all cursor-pointer shadow-sm"
+            >
+              <ArrowUp className="w-3.5 h-3.5" />
+            </button>
+
             {/* GIGW-style Language Switcher */}
             <div
               role="group"
@@ -86,7 +107,7 @@ export default function Home() {
                 type="button"
                 onClick={() => toggleLanguage("hi")}
                 aria-pressed={lang === "hi"}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
                   lang === "hi"
                     ? "bg-[#C9A45C] text-[#2B0510] font-bold shadow-md"
                     : "text-[#E8D5A3] hover:text-[#FFF8E9]"
@@ -98,7 +119,7 @@ export default function Home() {
                 type="button"
                 onClick={() => toggleLanguage("en")}
                 aria-pressed={lang === "en"}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
                   lang === "en"
                     ? "bg-[#C9A45C] text-[#2B0510] font-bold shadow-md"
                     : "text-[#E8D5A3] hover:text-[#FFF8E9]"
@@ -112,7 +133,7 @@ export default function Home() {
       </header>
 
       {/* SECTION 1: HERO SECTION */}
-      <section className="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-4 py-14 overflow-hidden">
+      <section className="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-20 pb-14 overflow-hidden">
         <div className="absolute inset-x-4 inset-y-6 sm:inset-10 border border-[#C9A45C]/25 rounded-3xl pointer-events-none -z-0" />
         <div className="absolute inset-x-6 inset-y-8 sm:inset-12 border border-[#C9A45C]/15 rounded-3xl pointer-events-none -z-0" />
 
