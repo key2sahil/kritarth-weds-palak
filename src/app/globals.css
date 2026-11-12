@@ -58,41 +58,46 @@
   animation: shimmer 4s infinite linear;
 }
 
-/* Floating Gold Particle Animation */
-@keyframes goldFloat {
+/* Vibrant Gold Glitter & Stardust Animation */
+@keyframes goldGlitter {
   0% {
-    transform: translateY(0px) scale(0.9);
-    opacity: 0.2;
+    transform: translateY(0px) scale(0.6);
+    opacity: 0.1;
   }
-  50% {
-    transform: translateY(-24px) scale(1.15);
+  30% {
+    opacity: 1;
+    transform: translateY(-15px) scale(1.4);
+    filter: drop-shadow(0 0 10px #FFD700);
+  }
+  70% {
     opacity: 0.85;
+    transform: translateY(-30px) scale(1.1);
   }
   100% {
-    transform: translateY(-48px) scale(0.9);
-    opacity: 0.2;
+    transform: translateY(-50px) scale(0.5);
+    opacity: 0.05;
   }
 }
 
-.animate-gold-float {
-  animation: goldFloat 8s infinite ease-in-out;
+.animate-gold-glitter {
+  animation: goldGlitter 4.5s infinite ease-in-out;
 }
 
 /* Twinkling Diamond Star Sparkle */
 @keyframes twinkle {
   0%, 100% {
-    opacity: 0.15;
+    opacity: 0.2;
     transform: scale(0.7) rotate(0deg);
   }
   50% {
-    opacity: 0.95;
-    transform: scale(1.25) rotate(45deg);
-    filter: drop-shadow(0 0 6px #E8D5A3);
+    opacity: 1;
+    transform: scale(1.4) rotate(45deg);
+    filter: drop-shadow(0 0 10px #FFF8E9);
   }
 }
 
 .animate-twinkle {
-  animation: twinkle 3s infinite ease-in-out;
+  animation: twinkle 2.5s infinite ease-in-out;
 }
 
 /* Subtle Royal Pattern Background */

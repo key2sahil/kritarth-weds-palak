@@ -2,29 +2,30 @@
 
 import React, { useEffect, useState } from "react";
 
-interface Sparkle {
+interface SparkleItem {
   id: number;
   top: number;
   left: number;
   size: number;
   duration: number;
   delay: number;
-  opacity: number;
+  color: string;
 }
 
 export function GoldenSparkles() {
-  const [sparkles, setSparkles] = useState<Sparkle[]>([]);
+  const [sparkles, setSparkles] = useState<SparkleItem[]>([]);
 
   useEffect(() => {
-    // 25 delicate, slow-drifting gold stardust particles distributed gracefully
-    const items: Sparkle[] = Array.from({ length: 28 }, (_, i) => ({
+    // 40 radiant golden glitters & diamond sparkles distributed gracefully across screen
+    const colors = ["#FFF8E9", "#F5E5BE", "#E8D5A3", "#C9A45C", "#FFD700"];
+    const items: SparkleItem[] = Array.from({ length: 42 }, (_, i) => ({
       id: i,
-      top: (i * 13.7) % 100,
-      left: (i * 19.3) % 100,
-      size: (i % 3 === 0 ? 3 : i % 2 === 0 ? 2 : 1.5) + Math.sin(i) * 0.5,
-      duration: 6 + (i % 5) * 2, // 6s to 14s gentle slow drift
-      delay: (i % 6) * 1.2,
-      opacity: 0.35 + (i % 4) * 0.15,
+      top: (i * 11.3) % 100,
+      left: (i * 17.9) % 100,
+      size: (i % 4 === 0 ? 5 : i % 2 === 0 ? 3.5 : 2.5),
+      duration: 3 + (i % 4) * 1.5, // 3s to 7.5s active shimmering
+      delay: (i % 7) * 0.7,
+      color: colors[i % colors.length],
     }));
     setSparkles(items);
   }, []);
@@ -32,22 +33,21 @@ export function GoldenSparkles() {
   return (
     <div
       aria-hidden="true"
-      className="fixed inset-0 pointer-events-none z-10 overflow-hidden"
+      className="fixed inset-0 pointer-events-none z-30 overflow-hidden"
     >
       {sparkles.map((s) => (
         <span
           key={s.id}
-          className="absolute rounded-full pointer-events-none animate-gold-float"
+          className="absolute rounded-full pointer-events-none animate-gold-glitter"
           style={{
             top: `${s.top}%`,
             left: `${s.left}%`,
             width: `${s.size}px`,
             height: `${s.size}px`,
-            backgroundColor: s.id % 2 === 0 ? "#E8D5A3" : "#C9A45C",
-            boxShadow: `0 0 ${s.size * 2.5}px rgba(232, 213, 163, 0.85)`,
+            backgroundColor: s.color,
+            boxShadow: `0 0 ${s.size * 3}px ${s.color}, 0 0 ${s.size * 6}px rgba(232, 213, 163, 0.9)`,
             animationDuration: `${s.duration}s`,
             animationDelay: `${s.delay}s`,
-            opacity: s.opacity,
           }}
         />
       ))}
@@ -55,14 +55,14 @@ export function GoldenSparkles() {
   );
 }
 
-export function TwinkleSparkle({ className = "w-4 h-4 text-[#E8D5A3]" }: { className?: string }) {
+export function TwinkleSparkle({ className = "w-5 h-5 text-[#E8D5A3]" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={`${className} animate-twinkle pointer-events-none`}
+      className={`${className} animate-twinkle pointer-events-none filter drop-shadow-[0_0_8px_#E8D5A3]`}
     >
-      <path d="M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8L12 0Z" />
+      <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
     </svg>
   );
 }
