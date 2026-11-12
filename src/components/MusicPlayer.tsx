@@ -12,16 +12,41 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Local authentic classical Shehnai audio file hosted in /public/audio/shehnai.mp3
     const audio = new Audio("/audio/shehnai.mp3");
     audio.loop = true;
     audio.volume = 0.6;
     audio.preload = "auto";
     audioRef.current = audio;
 
+    // 1. Attempt immediate play on page load
+    const tryPlay = () => {
+      audio
+        .play()
+        .then(() => {
+          setIsPlaying(true);
+          // Remove listener once played
+          window.removeEventListener("click", tryPlay);
+          window.removeEventListener("touchstart", tryPlay);
+          window.removeEventListener("scroll", tryPlay);
+        })
+        .catch(() => {
+          // Browser requires user interaction; wait for first touch/click anywhere
+        });
+    };
+
+    tryPlay();
+
+    // 2. Fallback: On ANY first user gesture on the screen (tap/scroll/click), trigger play automatically
+    window.addEventListener("click", tryPlay, { once: true });
+    window.addEventListener("touchstart", tryPlay, { once: true });
+    window.addEventListener("scroll", tryPlay, { once: true });
+
     return () => {
       audio.pause();
       audio.src = "";
+      window.removeEventListener("click", tryPlay);
+      window.removeEventListener("touchstart", tryPlay);
+      window.removeEventListener("scroll", tryPlay);
     };
   }, []);
 
@@ -30,9 +55,8 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
       audioRef.current
         .play()
         .then(() => setIsPlaying(true))
-        .catch(() => {
-          // Modern browsers block autoplay until direct tap/click on audio control
-          setIsPlaying(false);
+        .catch((e) => {
+          console.log("Autoplay on trigger waiting for gesture:", e);
         });
     }
   }, [autoPlayTrigger, isPlaying]);
