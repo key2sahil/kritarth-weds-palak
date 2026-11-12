@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Volume2, VolumeX, Music } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 
 interface MusicPlayerProps {
   autoPlayTrigger?: boolean;
@@ -9,19 +9,15 @@ interface MusicPlayerProps {
 
 export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [audioLoaded, setAudioLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Shehnai instrumental background tune (royalty-free Indian classical flute/shehnai wedding music)
-    const audio = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_c39cfc153d.mp3?filename=indian-traditional-background-music-107024.mp3");
+    // Local authentic classical Shehnai audio file hosted in /public/audio/shehnai.mp3
+    const audio = new Audio("/audio/shehnai.mp3");
     audio.loop = true;
-    audio.volume = 0.55;
+    audio.volume = 0.6;
+    audio.preload = "auto";
     audioRef.current = audio;
-
-    audio.addEventListener("canplaythrough", () => {
-      setAudioLoaded(true);
-    });
 
     return () => {
       audio.pause();
@@ -35,7 +31,7 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
         .play()
         .then(() => setIsPlaying(true))
         .catch(() => {
-          // Browser prevented autoplay before interaction
+          // Modern browsers block autoplay until direct tap/click on audio control
           setIsPlaying(false);
         });
     }
@@ -50,7 +46,9 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
       audioRef.current
         .play()
         .then(() => setIsPlaying(true))
-        .catch((e) => console.log("Audio play error:", e));
+        .catch((e) => {
+          console.error("Audio playback error:", e);
+        });
     }
   };
 
@@ -58,14 +56,15 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
     <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2">
       <button
         onClick={toggleMusic}
-        title={isPlaying ? "संगीत बंद करें (Mute Music)" : "संगीत बजाएं (Play Shehnai Music)"}
-        className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#3A0916]/90 border border-[#C9A45C]/80 shadow-[0_4px_20px_rgba(201,164,92,0.35)] backdrop-blur-md text-[#FFF8E9] hover:bg-[#5B1020] transition-all duration-300"
+        type="button"
+        title={isPlaying ? "शहनाई संगीत रोकें (Mute Shehnai)" : "शाही शहनाई बजाएं (Play Royal Shehnai)"}
+        className="group relative flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#3A0916]/95 border border-[#C9A45C] shadow-[0_4px_25px_rgba(201,164,92,0.45)] backdrop-blur-md text-[#FFF8E9] hover:bg-[#5B1020] active:scale-95 transition-all duration-300 cursor-pointer"
       >
         <div className="relative">
           {isPlaying ? (
             <Volume2 className="w-5 h-5 text-[#E8D5A3] animate-pulse" />
           ) : (
-            <VolumeX className="w-5 h-5 text-[#E8D5A3]/70" />
+            <VolumeX className="w-5 h-5 text-[#E8D5A3]/80" />
           )}
           {isPlaying && (
             <span className="absolute -top-1 -right-1 flex h-2 w-2">
@@ -74,11 +73,10 @@ export function MusicPlayer({ autoPlayTrigger = false }: MusicPlayerProps) {
             </span>
           )}
         </div>
-        <span className="text-xs font-cinzel tracking-wider text-[#E8D5A3]">
+        <span className="text-xs font-cinzel font-semibold tracking-wider text-[#E8D5A3]">
           {isPlaying ? "Shehnai Playing" : "Play Shehnai"}
         </span>
       </button>
     </div>
   );
 }
-
