@@ -67,7 +67,7 @@ export const WEDDING_DATA = {
   ],
   auspiciousInvocationsEn: [
     "|| Shree Ganeshay Namah ||",
-    "|| Shree Baradya Balaji Kripa ||",
+    "|| Shree Bardiya Balaji Kripa ||",
     "|| Shree Kuldevyai Namah ||",
   ],
   shlokas: {
