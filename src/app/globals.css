@@ -58,6 +58,43 @@
   animation: shimmer 4s infinite linear;
 }
 
+/* Floating Gold Particle Animation */
+@keyframes goldFloat {
+  0% {
+    transform: translateY(0px) scale(0.9);
+    opacity: 0.2;
+  }
+  50% {
+    transform: translateY(-24px) scale(1.15);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(-48px) scale(0.9);
+    opacity: 0.2;
+  }
+}
+
+.animate-gold-float {
+  animation: goldFloat 8s infinite ease-in-out;
+}
+
+/* Twinkling Diamond Star Sparkle */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(0.7) rotate(0deg);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.25) rotate(45deg);
+    filter: drop-shadow(0 0 6px #E8D5A3);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s infinite ease-in-out;
+}
+
 /* Subtle Royal Pattern Background */
 .royal-mandala-bg {
   background-color: #2B0510;

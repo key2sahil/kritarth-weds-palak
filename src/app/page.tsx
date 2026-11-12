@@ -8,6 +8,7 @@ import { Countdown } from "@/components/Countdown";
 import { CeremonyTimeline } from "@/components/CeremonyTimeline";
 import { WhatsAppShare } from "@/components/WhatsAppShare";
 import { GaneshaIcon, KalashIcon, DiyaIcon, RoyalMandalaDivider } from "@/components/RoyalIcons";
+import { GoldenSparkles, TwinkleSparkle } from "@/components/GoldenSparkles";
 import {
   Calendar,
   MapPin,
@@ -39,6 +40,9 @@ export default function Home() {
 
       {/* BACKGROUND ROYAL AMBIENCE */}
       <div className="fixed inset-0 royal-mandala-bg opacity-30 pointer-events-none -z-10" />
+
+      {/* GOLDEN GLITTER & STARDUST PARTICLES LAYER */}
+      <GoldenSparkles />
 
       {/* TOP FLOATING NAV / BAR WITH GIGW COMPLIANT LANGUAGE SWITCHER */}
       <header className="sticky top-0 z-40 bg-[#25030C]/95 backdrop-blur-md border-b border-[#C9A45C]/30 px-4 py-2.5">
@@ -150,6 +154,13 @@ export default function Home() {
 
         {/* Royal Names of the Couple */}
         <div className="relative z-10 my-2">
+          <div className="absolute -top-4 left-4 hidden sm:block">
+            <TwinkleSparkle className="w-5 h-5 text-[#E8D5A3]" />
+          </div>
+          <div className="absolute -bottom-3 right-6 hidden sm:block">
+            <TwinkleSparkle className="w-4 h-4 text-[#C9A45C]" />
+          </div>
+
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-cormorant font-bold gold-gradient-text tracking-wide drop-shadow-md">
             {WEDDING_DATA.couple.groom.nameEn}
             <span className="text-2xl sm:text-4xl font-serif text-[#E8D5A3] mx-3 sm:mx-5">&</span>

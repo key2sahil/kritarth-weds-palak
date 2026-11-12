@@ -278,7 +278,7 @@ export const WEDDING_DATA = {
     nameEn: "Swagat Marriage Garden",
     addressHi: "कुरवाई रोड, सिरोंज, जिला विदिशा (म.प्र.)",
     addressEn: "Kurwai Road, Sironj, Dist. Vidisha (M.P.)",
-    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Swagat+Marriage+Garden+Kurwai+Road+Sironj+Madhya+Pradesh",
+    googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Swagat+Marriage+Garden+Sironj+Madhya+Pradesh",
     googleMapsEmbedUrl: "https://maps.google.com/maps?q=Swagat%20Marriage%20Garden%20Kurwai%20Road%20Sironj&t=&z=15&ie=UTF8&iwloc=&output=embed",
   },
 
