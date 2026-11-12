@@ -547,9 +547,7 @@ export default function Home() {
               {(lang === "hi" ? WEDDING_DATA.family.matrikul.members : WEDDING_DATA.family.matrikul.membersEn).map((member, i) => (
                 <li key={i} className="flex items-center gap-2">
                   <span className="text-[#C9A45C] text-xs">✦</span>
-                  <span className={member.includes("गिरिराज") || member.includes("Giriraj") ? "font-semibold text-[#E8D5A3]" : ""}>
-                    {member}
-                  </span>
+                  <span>{member}</span>
                 </li>
               ))}
             </ul>
