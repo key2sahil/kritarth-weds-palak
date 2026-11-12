@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from "react";
 
-interface SparkleItem {
+interface AmbientSparkle {
   id: number;
   top: number;
   left: number;
@@ -13,24 +13,24 @@ interface SparkleItem {
 }
 
 export function GoldenSparkles() {
-  const [sparkles, setSparkles] = useState<SparkleItem[]>([]);
+  const [ambientSparkles, setAmbientSparkles] = useState<AmbientSparkle[]>([]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    // 1. Gentle Ambient Background Particles (Kept at only 16 soft, tiny, quiet specks)
-    const colors = ["#E8D5A3", "#C9A45C", "#F5E5BE"];
-    const items: SparkleItem[] = Array.from({ length: 16 }, (_, i) => ({
+    // 1. Ambient Background Gold Twinkles (25 well-balanced shimmering particles)
+    const goldTones = ["#FFF8E9", "#F5E5BE", "#E8D5A3", "#C9A45C", "#FFD700"];
+    const items: AmbientSparkle[] = Array.from({ length: 28 }, (_, i) => ({
       id: i,
-      top: (i * 17.3) % 100,
-      left: (i * 23.9) % 100,
-      size: i % 2 === 0 ? 2 : 1.5,
-      duration: 6 + (i % 3) * 2,
-      delay: (i % 5) * 1.5,
-      color: colors[i % colors.length],
+      top: (i * 13.9) % 100,
+      left: (i * 18.7) % 100,
+      size: (i % 3 === 0 ? 3.5 : 2.5),
+      duration: 4 + (i % 4) * 1.2,
+      delay: (i % 5) * 0.8,
+      color: goldTones[i % goldTones.length],
     }));
-    setSparkles(items);
+    setAmbientSparkles(items);
 
-    // 2. Subtle Interactive Stardust (Strictly throttled, tiny, quick fade, never covering text)
+    // 2. Beautiful Balanced Golden Ray & Stardust Sparkle Trail on Mouse & Touch
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -55,62 +55,81 @@ export function GoldenSparkles() {
       color: string;
       alpha: number;
       decay: number;
+      isStar: boolean;
     }
 
     const particles: Particle[] = [];
-    const subtleGold = ["#E8D5A3", "#C9A45C", "#F5E5BE"];
+    const colors = ["#FFF8E9", "#F5E5BE", "#E8D5A3", "#C9A45C", "#FFD700"];
 
-    const addSparks = (x: number, y: number, count = 1) => {
-      // Limit total particles in memory so it never explodes into patakhas
-      if (particles.length > 25) return;
+    const addSparks = (x: number, y: number, count = 2) => {
+      if (particles.length > 60) return;
 
       for (let i = 0; i < count; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 0.9 + 0.3; // Very gentle drift
+        const speed = Math.random() * 1.4 + 0.6;
         particles.push({
           x,
           y,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.4,
-          size: Math.random() * 1.8 + 1, // Tiny delicate specs (1px - 2.8px)
-          color: subtleGold[Math.floor(Math.random() * subtleGold.length)],
-          alpha: 0.65, // Lower opacity
-          decay: Math.random() * 0.04 + 0.03, // Fades away very fast (under 0.8s)
+          vy: Math.sin(angle) * speed - 0.5,
+          size: Math.random() * 2.8 + 2, // 2px to 4.8px (clearly visible!)
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 0.9,
+          decay: Math.random() * 0.02 + 0.015, // Smooth ~1.2s graceful fade
+          isStar: i % 2 === 0,
         });
       }
     };
 
-    // Desktop Mouse Move Trigger: only fires every 35px of movement, 1 tiny particle
+    // Desktop Mouse Move (triggers every 12px)
     let lastMouseX = 0;
     let lastMouseY = 0;
     const onMouseMove = (e: MouseEvent) => {
       const dist = Math.hypot(e.clientX - lastMouseX, e.clientY - lastMouseY);
-      if (dist > 35) {
-        addSparks(e.clientX, e.clientY, 1);
+      if (dist > 12) {
+        addSparks(e.clientX, e.clientY, 2);
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
       }
     };
 
-    // Mobile Touch Move Trigger: gentle single particle trail
+    // Mobile Touch Move
     let lastTouchX = 0;
     let lastTouchY = 0;
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         const dist = Math.hypot(touch.clientX - lastTouchX, touch.clientY - lastTouchY);
-        if (dist > 40) {
-          addSparks(touch.clientX, touch.clientY, 1);
+        if (dist > 14) {
+          addSparks(touch.clientX, touch.clientY, 2);
           lastTouchX = touch.clientX;
           lastTouchY = touch.clientY;
         }
       }
     };
 
-    // Scroll: removed burst entirely so scrolling through invitation cards is 100% clean and readable!
+    // Mobile & Desktop Scroll (adds a gentle sprinkle of 2 sparkles on scroll movement)
+    let lastScrollY = window.scrollY;
+    let scrollThrottle = false;
+    const onScroll = () => {
+      if (scrollThrottle) return;
+      const currentScrollY = window.scrollY;
+      const delta = Math.abs(currentScrollY - lastScrollY);
+      if (delta > 20) {
+        scrollThrottle = true;
+        const x = Math.random() * (width * 0.8) + width * 0.1;
+        const y = Math.random() * (height * 0.6) + height * 0.2;
+        addSparks(x, y, 2);
+        lastScrollY = currentScrollY;
+        setTimeout(() => {
+          scrollThrottle = false;
+        }, 120);
+      }
+    };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     let animationId: number;
     const render = () => {
@@ -130,11 +149,29 @@ export function GoldenSparkles() {
         ctx.save();
         ctx.globalAlpha = p.alpha;
         ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
 
-        // Subtle soft dot (no harsh long ray lines or firecracker blasts)
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
+        if (p.isStar) {
+          // Draw a 4-point diamond star sparkle ✦
+          const r = p.size * 1.5;
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y - r);
+          ctx.lineTo(p.x + r * 0.35, p.y - r * 0.35);
+          ctx.lineTo(p.x + r, p.y);
+          ctx.lineTo(p.x + r * 0.35, p.y + r * 0.35);
+          ctx.lineTo(p.x, p.y + r);
+          ctx.lineTo(p.x - r * 0.35, p.y + r * 0.35);
+          ctx.lineTo(p.x - r, p.y);
+          ctx.lineTo(p.x - r * 0.35, p.y - r * 0.35);
+          ctx.closePath();
+          ctx.fill();
+        } else {
+          // Soft glowing golden round particle
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
 
         ctx.restore();
       }
@@ -149,34 +186,37 @@ export function GoldenSparkles() {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
   return (
     <>
-      {/* Subtle Soft Stardust Trail (Low opacity, behind dialogs) */}
+      {/* Interactive Golden Star Sparkle Canvas Trail */}
       <canvas
         ref={canvasRef}
         aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-10 w-full h-full opacity-60"
+        className="fixed inset-0 pointer-events-none z-30 w-full h-full"
       />
 
-      {/* Gentle Floating Background Dust (Underneath content layers) */}
+      {/* Ambient Floating Gold Twinkles */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30"
+        className="fixed inset-0 pointer-events-none z-10 overflow-hidden"
       >
-        {sparkles.map((s) => (
+        {ambientSparkles.map((s) => (
           <span
             key={s.id}
-            className="absolute rounded-full pointer-events-none"
+            className="absolute rounded-full pointer-events-none animate-gold-glitter"
             style={{
               top: `${s.top}%`,
               left: `${s.left}%`,
               width: `${s.size}px`,
               height: `${s.size}px`,
               backgroundColor: s.color,
-              opacity: 0.4,
+              boxShadow: `0 0 ${s.size * 2.5}px ${s.color}, 0 0 ${s.size * 5}px rgba(232, 213, 163, 0.7)`,
+              animationDuration: `${s.duration}s`,
+              animationDelay: `${s.delay}s`,
             }}
           />
         ))}
@@ -185,12 +225,12 @@ export function GoldenSparkles() {
   );
 }
 
-export function TwinkleSparkle({ className = "w-4 h-4 text-[#E8D5A3]" }: { className?: string }) {
+export function TwinkleSparkle({ className = "w-5 h-5 text-[#E8D5A3]" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={`${className} pointer-events-none opacity-40`}
+      className={`${className} animate-twinkle pointer-events-none filter drop-shadow-[0_0_8px_#E8D5A3]`}
     >
       <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
     </svg>
